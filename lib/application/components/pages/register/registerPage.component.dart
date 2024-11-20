@@ -25,12 +25,12 @@ class RegisterPageState extends State<RegisterPage> {
   bool _isPersonalTrainer = false;
 
   String _generateUserCode() {
-    int randomCode =
-        1000 + (1000 * (DateTime.now().millisecondsSinceEpoch % 100));
-    return randomCode.toString();
+    DateTime now = DateTime.now();
+    String formattedDate = "${now.year}${now.month.toString().padLeft(2, '0')}";
+    return "$formattedDate${now.millisecondsSinceEpoch % 1000}";
   }
 
-  void _cadastrar() {
+  void _cadastrar() async {
     final UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
     if (_formKey.currentState?.validate() ?? false) {
@@ -42,25 +42,43 @@ class RegisterPageState extends State<RegisterPage> {
 
       String code = _generateUserCode();
 
-      if (password == confirmPassword) {
-        User registeredUser = User(
-          code,
-          password,
-          name: name,
-          email: email,
-          contact: contact,
-          isPersonalTrainer: _isPersonalTrainer,
-        );
-
-        userProvider.addUser(registeredUser);
-
+      bool userExists = await userProvider.checkIfUserExists(code, email);
+      if (userExists) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
               content:
-                  Text('Cadastro realizado com sucesso! Matrícula: $code')),
+                  Text('Usuário já cadastrado com esse código ou e-mail.')),
         );
+        return;
+      }
 
-        Navigator.pop(context);
+      if (password == confirmPassword) {
+        Map<String, dynamic> user = {
+          'code': code,
+          'password': password,
+          'name': name,
+          'email': email,
+          'contact': contact,
+          'is_authenticated': 0,
+          'is_personal_trainer': _isPersonalTrainer ? 1 : 0,
+        };
+
+        try {
+          await userProvider.addUserToDatabase(user);
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content:
+                    Text('Cadastro realizado com sucesso! Matrícula: $code')),
+          );
+
+          Navigator.pop(context);
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: Text('Erro ao cadastrar o usuário. Tente novamente.')),
+          );
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(

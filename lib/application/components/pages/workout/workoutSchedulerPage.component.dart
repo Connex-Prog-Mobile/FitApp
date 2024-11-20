@@ -1,18 +1,18 @@
-import 'package:fit_app/application/components/pages/exercises/exercisesPage.component.dart';
+import 'package:fit_app/application/components/pages/workout/workoutPage.component.dart';
 import 'package:fit_app/application/components/widgets/defaultAppBar.widget.dart';
 import 'package:fit_app/application/components/widgets/footer.widget.dart';
 import 'package:fit_app/application/entities/Event.entity.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class ExerciseSchedulerPage extends StatefulWidget {
-  const ExerciseSchedulerPage({super.key});
+class WorkoutSchedulerPage extends StatefulWidget {
+  const WorkoutSchedulerPage({super.key});
 
   @override
-  ExerciseSchedulerPageState createState() => ExerciseSchedulerPageState();
+  WorkoutSchedulerPageState createState() => WorkoutSchedulerPageState();
 }
 
-class ExerciseSchedulerPageState extends State<ExerciseSchedulerPage> {
+class WorkoutSchedulerPageState extends State<WorkoutSchedulerPage> {
   late final ValueNotifier<List<Event>> _selectedEvents;
   late DateTime _selectedDay;
   late DateTime _focusedDay;
@@ -225,8 +225,8 @@ class ExerciseSchedulerPageState extends State<ExerciseSchedulerPage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ExercisesPage(workoutName: 'Tela de exercicio')),
+                                        builder: (context) => const WorkoutPage(
+                                            workoutName: 'Tela de exercicio')),
                                   );
                                 },
                                 title: Text(event.title,

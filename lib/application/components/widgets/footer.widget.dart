@@ -1,4 +1,4 @@
-import 'package:fit_app/application/components/pages/exercises/exercisesSchedulerPage.component.dart';
+import 'package:fit_app/application/components/pages/workout/workoutSchedulerPage.component.dart';
 import 'package:fit_app/application/components/pages/home/homePage.component.dart';
 import 'package:fit_app/application/components/pages/register/registerPage.component.dart';
 import 'package:fit_app/application/components/pages/scheduler/schedulerPage.component.dart';
@@ -19,7 +19,7 @@ class _FooterWidgetState extends State<FooterWidget> {
   final List<Widget> _pages = [
     const HomePage(),
     const RegisterPage(),
-    const ExerciseSchedulerPage(),
+    const WorkoutSchedulerPage(),
     const SchedulerPage(),
     const SearchPage(),
   ];
@@ -72,8 +72,13 @@ class _FooterWidgetState extends State<FooterWidget> {
         BottomNavigationBarItem(
           icon: Icon(Icons.search),
           label: 'Buscar',
-        ),
+        )
       ],
     );
   }
 }
+
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.assignment_add),
+        //   label: 'Fichas',
+        // ),

@@ -17,6 +17,7 @@ class DatabaseHelper {
 
   Future<Database> _initDatabase() async {
     final dbPath = await getDatabasesPath();
+    print('caminho do bando no cell: $dbPath');
     final path = join(dbPath, 'fit_app.db');
 
     return await openDatabase(

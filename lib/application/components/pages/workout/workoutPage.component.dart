@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:fit_app/application/entities/workout.entity.dart';
 import 'package:flutter/material.dart';
 
-class ExercisesPage extends StatefulWidget {
+class WorkoutPage extends StatefulWidget {
   final String workoutName;
 
-  const ExercisesPage({Key? key, required this.workoutName}) : super(key: key);
+  const WorkoutPage({Key? key, required this.workoutName}) : super(key: key);
 
   @override
-  _ExercisesPageState createState() => _ExercisesPageState();
+  _WorkoutPageState createState() => _WorkoutPageState();
 }
 
-class _ExercisesPageState extends State<ExercisesPage> {
+class _WorkoutPageState extends State<WorkoutPage> {
   List<Workout> exercises = [
     Workout(name: 'Supino Reto', sets: 3, defaultWeight: 20, defaultReps: 10),
     Workout(name: 'Rosca Direta', sets: 4, defaultWeight: 15, defaultReps: 12),

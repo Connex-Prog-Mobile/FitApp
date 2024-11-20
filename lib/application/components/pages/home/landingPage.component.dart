@@ -1,5 +1,5 @@
+import 'package:fit_app/application/components/pages/home/homePage.component.dart';
 import 'package:fit_app/application/components/pages/register/registerPage.component.dart';
-import 'package:fit_app/application/components/pages/scheduler/schedulerPage.component.dart';
 import 'package:fit_app/application/infra/@providers/User.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -67,14 +67,15 @@ class LandingPageState extends State<LandingPage> {
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     String userCode = _userCodeController.text;
                     String password = _passwordController.text;
                     final UserProvider userProvider =
                         Provider.of<UserProvider>(context, listen: false);
 
                     bool userIsValid =
-                        userProvider.validateUser(userCode, password);
+                        await userProvider.validateUser(userCode, password);
+
                     userProvider.activeUser?.isAuthenticated = true;
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -90,12 +91,13 @@ class LandingPageState extends State<LandingPage> {
                     );
 
                     if (userIsValid) {
-                      _userCodeController.text = '';
-                      _passwordController.text = '';
-                      Navigator.push(
+                      _userCodeController.clear();
+                      _passwordController.clear();
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const SchedulerPage()),
+                          builder: (context) => const HomePage(),
+                        ),
                       );
                     }
                   },
@@ -110,20 +112,22 @@ class LandingPageState extends State<LandingPage> {
                 ),
                 const SizedBox(height: 20),
                 TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const RegisterPage()),
-                      );
-                    },
-                    child: const Text(
-                      'Cadastre-se',
-                      style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.black,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const RegisterPage(),
                       ),
-                    ))
+                    );
+                  },
+                  child: const Text(
+                    'Cadastre-se',
+                    style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.black,
+                    ),
+                  ),
+                )
               ],
             ),
           ),

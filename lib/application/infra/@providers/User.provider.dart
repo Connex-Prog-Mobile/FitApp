@@ -1,9 +1,11 @@
 import 'package:fit_app/application/entities/schedule.entity.dart';
 import 'package:fit_app/application/entities/user.entity.dart';
+import 'package:fit_app/application/infra/database/repositories/user.repository.dart';
 import 'package:flutter/foundation.dart';
 
 class UserProvider with ChangeNotifier {
   User? activeUser;
+  final UserRepository _userRepository = UserRepository();
 
   final List<User> _usersList = [];
 
@@ -18,30 +20,59 @@ class UserProvider with ChangeNotifier {
     }
   }
 
-  void addSchedule(Schedule schedule){
-      if (activeUser != null){
-        activeUser?.schedules.add(schedule);
-      } else {
-        print('usuário não encontrado');
-      }
+  Future<void> addUserToDatabase(Map<String, dynamic> user) async {
+    try {
+      await _userRepository.insertUser(user);
+    } catch (e) {
+      throw Exception('Erro ao inserir usuário no banco de dados: $e');
+    }
   }
 
-  void logout(){
+  Future<bool> checkIfUserExists(String code, String email) async {
+    final existingUserByCode = await _userRepository.getUserByCode(code);
+    if (existingUserByCode != null) return true;
+
+    final existingUserByEmail = await _userRepository.getUserByEmail(email);
+    if (existingUserByEmail != null) return true;
+
+    return false;
+  }
+
+  void addSchedule(Schedule schedule) {
+    if (activeUser != null) {
+      activeUser?.schedules.add(schedule);
+    } else {
+      print('usuário não encontrado');
+    }
+  }
+
+  void logout() {
     activeUser?.isAuthenticated = false;
     notifyListeners();
   }
 
-  bool validateUser(String userCode, String password) {
-    try {
-      final User user = _usersList.firstWhere(
-        (u) => u.code == userCode && u.password == password,
+  Future<bool> validateUser(String code, String password) async {
+    final userMap = await _userRepository.getUserByCode(code);
+
+    if (userMap == null) return false;
+
+    final isValid =
+        _userRepository.validatePassword(password, userMap['password']);
+
+    if (isValid) {
+      activeUser = User(
+        userMap['code'],
+        userMap['password'],
+        name: userMap['name'],
+        email: userMap['email'],
+        contact: userMap['contact'],
+        isAuthenticated: true,
+        isPersonalTrainer: userMap['is_personal_trainer'] == 1,
       );
 
-      activeUser = user;
       notifyListeners();
-      return true;
-    } catch (e) {
-      return false;
     }
+
+    return isValid;
   }
 }
