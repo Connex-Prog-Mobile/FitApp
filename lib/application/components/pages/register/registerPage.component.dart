@@ -22,6 +22,7 @@ class RegisterPageState extends State<RegisterPage> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   final TextEditingController _contactController = TextEditingController();
+  bool _isPersonalTrainer = false;
 
   String _generateUserCode() {
     int randomCode =
@@ -42,12 +43,16 @@ class RegisterPageState extends State<RegisterPage> {
       String code = _generateUserCode();
 
       if (password == confirmPassword) {
-        User registeredUser =
-            User(code, password, name: name, email: email, contact: contact);
+        User registeredUser = User(
+          code,
+          password,
+          name: name,
+          email: email,
+          contact: contact,
+          isPersonalTrainer: _isPersonalTrainer,
+        );
 
         userProvider.addUser(registeredUser);
-
-        print('Cadastro realizado: $name, $email, $code, $password, $contact');
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -72,13 +77,11 @@ class RegisterPageState extends State<RegisterPage> {
     final User? activeUser = userProvider.activeUser;
 
     return Scaffold(
-      resizeToAvoidBottomInset:
-          true, 
+      resizeToAvoidBottomInset: true,
       appBar: const DefaultAppBar('Cadastro de Usuário'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
-          
           child: Form(
             key: _formKey,
             child: Column(
@@ -88,6 +91,9 @@ class RegisterPageState extends State<RegisterPage> {
                   controller: _nameController,
                   decoration: const InputDecoration(
                     labelText: 'Nome',
+                    labelStyle: TextStyle(color: Colors.green),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green)),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -101,6 +107,9 @@ class RegisterPageState extends State<RegisterPage> {
                   controller: _emailController,
                   decoration: const InputDecoration(
                     labelText: 'E-mail',
+                    labelStyle: TextStyle(color: Colors.green),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green)),
                   ),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
@@ -120,6 +129,9 @@ class RegisterPageState extends State<RegisterPage> {
                   controller: _passwordController,
                   decoration: const InputDecoration(
                     labelText: 'Senha',
+                    labelStyle: TextStyle(color: Colors.green),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green)),
                   ),
                   obscureText: true,
                   validator: (value) {
@@ -134,6 +146,9 @@ class RegisterPageState extends State<RegisterPage> {
                   controller: _confirmPasswordController,
                   decoration: const InputDecoration(
                     labelText: 'Confirme sua senha',
+                    labelStyle: TextStyle(color: Colors.green),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green)),
                   ),
                   obscureText: true,
                   validator: (value) {
@@ -143,13 +158,15 @@ class RegisterPageState extends State<RegisterPage> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 16),
                 TextFormField(
                   controller: _contactController,
                   decoration: const InputDecoration(
                     labelText: 'Contato',
+                    labelStyle: TextStyle(color: Colors.green),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green)),
                   ),
-                  obscureText: false,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor, insira seu contato';
@@ -157,22 +174,32 @@ class RegisterPageState extends State<RegisterPage> {
                     return null;
                   },
                 ),
+                const SizedBox(height: 16),
+                CheckboxListTile(
+                  title: const Text('É Personal Trainer?'),
+                  value: _isPersonalTrainer,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      _isPersonalTrainer = value ?? false;
+                    });
+                  },
+                  activeColor: Colors.green,
+                ),
                 const SizedBox(height: 30),
                 Center(
                   child: ElevatedButton(
-                      onPressed: _cadastrar,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 50, vertical: 15),
-                        textStyle: const TextStyle(fontSize: 18),
-                      ),
-                      child: const Text(
-                        'Cadastrar',
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                      )),
+                    onPressed: _cadastrar,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50, vertical: 15),
+                      textStyle: const TextStyle(fontSize: 18),
+                    ),
+                    child: const Text(
+                      'Cadastrar',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
                 ),
               ],
             ),

@@ -20,6 +20,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
         widgetTitle,
         style: const TextStyle(
           fontWeight: FontWeight.bold,
+          color: Colors.white
         ),
       ),
       backgroundColor: Colors.green,

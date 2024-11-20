@@ -129,7 +129,6 @@ class _UsersPageState extends State<UsersPage> {
                         return Card(
                           margin: const EdgeInsets.symmetric(vertical: 5),
                           child: ListTile(
-                            title: Text(person),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [

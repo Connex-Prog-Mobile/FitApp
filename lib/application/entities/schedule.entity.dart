@@ -4,13 +4,11 @@ class Schedule {
   final DateTime date;
   final TimeOfDay time;
   final String description;
-  final String location;
 
   Schedule({
     required this.date,
     required this.time,
     this.description = '',
-    this.location = '',
   });
 
   String get formattedDateTime {
@@ -31,7 +29,7 @@ class Schedule {
 
   @override
   String toString() {
-    return 'Schedule(date: $date, time: $time, description: "$description", location: "$location")';
+    return 'Schedule(date: $date, time: $time, description: "$description")';
   }
 
   bool isSameSchedule(Schedule other) {

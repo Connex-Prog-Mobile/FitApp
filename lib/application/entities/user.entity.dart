@@ -45,30 +45,3 @@ class User {
     return 'Nome: $_name, Email: $_email, Código: $_code, Senha: $_password, é personal: ${isPersonalTrainer ? "sim" : "não"}';
   }
 }
-
-class Trainer extends User {
-  List<User> _clients;
-
-  Trainer(
-    super.code,
-    super.password, {
-    super.name,
-    super.email,
-    super.contact,
-    super.schedules,
-    super.isAuthenticated,
-    List<User>? clients,
-  }) : _clients = clients ?? [];
-
-  List<User> get clients => _clients;
-
-  set clients(List<User> value) => _clients = value;
-
-  void addClient(User client) {
-    _clients.add(client);
-  }
-
-  void removeClient(User client) {
-    _clients.remove(client);
-  }
-}
