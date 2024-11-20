@@ -176,7 +176,7 @@ class RegisterPageState extends State<RegisterPage> {
                 ),
                 const SizedBox(height: 16),
                 CheckboxListTile(
-                  title: const Text('É Personal Trainer?'),
+                  title: const Text('Sou Personal Trainer?'),
                   value: _isPersonalTrainer,
                   onChanged: (bool? value) {
                     setState(() {

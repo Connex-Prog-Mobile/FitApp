@@ -23,13 +23,13 @@ class App extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.green,
         ),
-        // localizationsDelegates: const [
-        //   GlobalMaterialLocalizations.delegate,
-        //   GlobalWidgetsLocalizations.delegate,
-        //   GlobalCupertinoLocalizations.delegate
-        // ],
-        // locale: const Locale('pt', 'BR'),
-        // supportedLocales: const [Locale('pt', 'BR')],
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate
+        ],
+        locale: const Locale('pt', 'BR'),
+        supportedLocales: const [Locale('pt', 'BR')],
         home: const LandingPage());
   }
 }
