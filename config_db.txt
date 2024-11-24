@@ -1,0 +1,2 @@
+adb -e shell "cp /data/user/0/br.com.connex.fitApp.fit_app/databases/fit_app.db /sdcard/"
+adb pull /sdcard/fit_app.db

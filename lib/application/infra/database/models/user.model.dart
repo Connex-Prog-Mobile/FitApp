@@ -4,6 +4,9 @@ class User {
   final String password;
   final String name;
   final String email;
+  double? height;
+  double? weight;
+  double? imc;
   final String? contact;
   final bool isAuthenticated;
   final bool isPersonalTrainer;
@@ -15,6 +18,9 @@ class User {
     required this.name,
     required this.email,
     this.contact,
+    this.height,
+    this.weight,
+    this.imc,
     this.isAuthenticated = false,
     this.isPersonalTrainer = false,
   });
@@ -26,6 +32,9 @@ class User {
       'password': password,
       'name': name,
       'email': email,
+      'height': height,
+      'weight': weight,
+      'imc': imc,
       'contact': contact,
       'is_authenticated': isAuthenticated ? 1 : 0,
       'is_personal_trainer': isPersonalTrainer ? 1 : 0,
@@ -39,6 +48,9 @@ class User {
       password: map['password'],
       name: map['name'],
       email: map['email'],
+      height: map['height'],
+      weight: map['weight'],
+      imc: map['imc'],
       contact: map['contact'],
       isAuthenticated: map['is_authenticated'] == 1,
       isPersonalTrainer: map['is_personal_trainer'] == 1,

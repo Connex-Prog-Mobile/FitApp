@@ -1,6 +1,6 @@
-import 'package:fit_app/application/components/pages/home/landingPage.component.dart';
-import 'package:fit_app/application/entities/user.entity.dart';
-import 'package:fit_app/application/infra/@providers/User.provider.dart';
+import 'package:FitApp/application/components/login/landingPage.component.dart';
+import 'package:FitApp/application/entities/user.entity.dart';
+import 'package:FitApp/application/infra/@providers/User.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

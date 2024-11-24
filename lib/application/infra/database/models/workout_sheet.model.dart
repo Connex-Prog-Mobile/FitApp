@@ -1,14 +1,14 @@
+import 'package:FitApp/application/entities/workout.entity.dart';
+
 class WorkoutSheet {
-  final int id;
+  final int? id;
   final int userId;
-  final String exercises;
   final String? observations;
   final String? objectives;
 
   WorkoutSheet({
-    required this.id,
     required this.userId,
-    required this.exercises,
+    this.id,
     this.observations,
     this.objectives,
   });
@@ -17,17 +17,16 @@ class WorkoutSheet {
     return {
       'id': id,
       'user_id': userId,
-      'exercises': exercises,
       'observations': observations,
       'objectives': objectives,
     };
   }
 
-  factory WorkoutSheet.fromMap(Map<String, dynamic> map) {
+  factory WorkoutSheet.fromMap(
+      Map<String, dynamic> map, List<Workout> workouts) {
     return WorkoutSheet(
       id: map['id'],
       userId: map['user_id'],
-      exercises: map['exercises'],
       observations: map['observations'],
       objectives: map['objectives'],
     );

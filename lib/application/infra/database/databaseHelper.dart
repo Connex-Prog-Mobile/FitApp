@@ -23,7 +23,7 @@ class DatabaseHelper {
     return await openDatabase(
       path,
       version: 1,
-      onOpen: (db) async{
+      onOpen: (db) async {
         await db.execute('PRAGMA foreign_keys = ON');
       },
       onCreate: (db, version) async {
@@ -34,6 +34,9 @@ class DatabaseHelper {
             name TEXT NOT NULL,
             email TEXT NOT NULL,
             contact TEXT,
+            height REAL,
+            weight REAL,
+            imc REAL,
             is_authenticated INTEGER DEFAULT 0,
             is_personal_trainer INTEGER DEFAULT 0
           )''');
@@ -49,12 +52,10 @@ class DatabaseHelper {
 
         await db.execute('''CREATE TABLE workouts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT NULL,
             name TEXT NOT NULL,
             sets INTEGER NOT NULL,
             default_reps INTEGER NOT NULL,
-            default_weight INTEGER NOT NULL,
-            FOREIGN KEY (user_id) REFERENCES users (id)
+            default_weight INTEGER NOT NULL
           )''');
 
         await db.execute('''CREATE TABLE workout_sets (
@@ -70,10 +71,16 @@ class DatabaseHelper {
         await db.execute('''CREATE TABLE workout_sheets (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
-            exercises TEXT NOT NULL,
             observations TEXT,
             objectives TEXT,
             FOREIGN KEY (user_id) REFERENCES users (id)
+          )''');
+
+        await db.execute('''CREATE TABLE workout_sheet_workouts (
+            workout_sheet_id INTEGER NOT NULL,
+            workout_id INTEGER NOT NULL,
+            FOREIGN KEY (workout_sheet_id) REFERENCES workout_sheets (id),
+            FOREIGN KEY (workout_id) REFERENCES workouts (id)
           )''');
       },
     );

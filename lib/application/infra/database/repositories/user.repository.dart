@@ -1,6 +1,6 @@
+import 'package:FitApp/application/infra/database/databaseHelper.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
-import 'package:fit_app/application/infra/database/databaseHelper.dart';
 
 class UserRepository {
   final DatabaseHelper _dbHelper = DatabaseHelper();
@@ -13,6 +13,29 @@ class UserRepository {
     var result = await db.insert('users', user);
     print('### Usuário inserido com sucesso. Resultado: $result ###');
     return result;
+  }
+
+  Future<List<Map<String, dynamic>>> searchUsersByName(String name) async {
+    final db = await _dbHelper.database;
+
+    print('### Pesquisando usuários com nome: $name ###');
+    final results = await db.query(
+      'users',
+      where: 'name LIKE ?',
+      whereArgs: ['%$name%'], 
+    );
+
+    print('### Resultados encontrados: $results ###');
+    return results;
+  }
+
+  Future<void> deleteSchedulesByUserId(int userId) async {
+    final db = await _dbHelper.database;
+    await db.delete(
+      'schedules',
+      where: 'user_id = ?',
+      whereArgs: [userId],
+    );
   }
 
   Future<List<Map<String, dynamic>>> getAllUsers() async {
@@ -58,7 +81,6 @@ class UserRepository {
 
   Future<int> updateUser(int id, Map<String, dynamic> user) async {
     final db = await _dbHelper.database;
-
     print('### Atualizando usuário com ID: $id ###');
     var result =
         await db.update('users', user, where: 'id = ?', whereArgs: [id]);

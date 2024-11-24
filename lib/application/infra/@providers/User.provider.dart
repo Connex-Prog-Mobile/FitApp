@@ -1,15 +1,24 @@
-import 'package:fit_app/application/entities/schedule.entity.dart';
-import 'package:fit_app/application/entities/user.entity.dart';
-import 'package:fit_app/application/infra/database/repositories/user.repository.dart';
+import 'package:FitApp/application/entities/schedule.entity.dart';
+import 'package:FitApp/application/entities/user.entity.dart';
+import 'package:FitApp/application/entities/user.type.dart';
+import 'package:FitApp/application/infra/database/repositories/user.repository.dart';
 import 'package:flutter/foundation.dart';
 
 class UserProvider with ChangeNotifier {
   User? activeUser;
+  List<User> _usersList = [];
+  UserType _userType = UserType.user;
   final UserRepository _userRepository = UserRepository();
 
-  final List<User> _usersList = [];
-
   List<User> get usersList => List.unmodifiable(_usersList);
+  UserType get userType => _userType;
+
+  set userType(UserType value) => _userType = value;
+
+  void setUserType(UserType userType) {
+    _userType = userType;
+    notifyListeners();
+  }
 
   void addUser(User user) {
     if (!_usersList.any((u) => u.code == user.code)) {
@@ -26,6 +35,12 @@ class UserProvider with ChangeNotifier {
     } catch (e) {
       throw Exception('Erro ao inserir usuário no banco de dados: $e');
     }
+  }
+
+  Future<void> loadUsers() async {
+    final usersData = await _userRepository.getAllUsers();
+    _usersList = usersData.map((userMap) => User.fromMap(userMap)).toList();
+    notifyListeners();
   }
 
   Future<bool> checkIfUserExists(String code, String email) async {
@@ -63,6 +78,7 @@ class UserProvider with ChangeNotifier {
       activeUser = User(
         userMap['code'],
         userMap['password'],
+        id: userMap['id'],
         name: userMap['name'],
         email: userMap['email'],
         contact: userMap['contact'],
