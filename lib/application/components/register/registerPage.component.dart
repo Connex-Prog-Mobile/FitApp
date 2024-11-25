@@ -204,6 +204,11 @@ class RegisterPageState extends State<RegisterPage> {
                     if (value == null || value.isEmpty) {
                       return 'Por favor, insira seu contato';
                     }
+
+                    if (!RegExp(r'^\s*(?:\(\d{2}\)|\d{2})\s*\d{5}-?\d{4}\s*$')
+                        .hasMatch(value)) {
+                      return 'Por favor, insira um número válido';
+                    }
                     return null;
                   },
                 ),
