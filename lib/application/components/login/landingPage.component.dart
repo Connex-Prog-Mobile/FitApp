@@ -85,6 +85,7 @@ class LandingPageState extends State<LandingPage> {
                               ? 'Login realizado com sucesso'
                               : 'Matrícula ou senha inválidas',
                         ),
+                        duration: Duration(seconds: 10),
                         backgroundColor: userIsValid
                             ? const Color.fromARGB(255, 5, 39, 6)
                             : Colors.red,
