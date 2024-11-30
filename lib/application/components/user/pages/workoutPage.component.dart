@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:FitApp/application/entities/workout.entity.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
 class WorkoutPage extends StatefulWidget {
   final String workoutName;
@@ -14,9 +15,9 @@ class WorkoutPage extends StatefulWidget {
 
 class _WorkoutPageState extends State<WorkoutPage> {
   List<Workout> exercises = [
-    Workout(name: 'Supino Reto', sets: 3, defaultWeight: 20, defaultReps: 10),
-    Workout(name: 'Rosca Direta', sets: 4, defaultWeight: 15, defaultReps: 12),
-    Workout(name: 'Agachamento', sets: 5, defaultWeight: 30, defaultReps: 8),
+    Workout(name: 'Supino Reto', sets: 3, defaultWeight: 20, defaultReps: 10, videoRef:'https://cdnl.iconscout.com/lottie/premium/preview-watermark/man-doing-sled-leg-press-exercise-for-legs-animation-download-in-lottie-json-gif-static-svg-file-formats--men-workout-male-gym-exercises-pack-fitness-animations-9729963.mp4'),
+    Workout(name: 'Rosca Direta', sets: 4, defaultWeight: 15, defaultReps: 12, videoRef:'https://cdnl.iconscout.com/lottie/premium/preview-watermark/man-doing-sled-leg-press-exercise-for-legs-animation-download-in-lottie-json-gif-static-svg-file-formats--men-workout-male-gym-exercises-pack-fitness-animations-9729963.mp4'),
+    Workout(name: 'Agachamento', sets: 5, defaultWeight: 30, defaultReps: 8, videoRef:'https://cdnl.iconscout.com/lottie/premium/preview-watermark/man-doing-sled-leg-press-exercise-for-legs-animation-download-in-lottie-json-gif-static-svg-file-formats--men-workout-male-gym-exercises-pack-fitness-animations-9729963.mp4'),
   ];
 
   int currentExerciseIndex = 0;
@@ -40,6 +41,15 @@ class _WorkoutPageState extends State<WorkoutPage> {
         timer.cancel();
       }
     });
+  }
+
+  void playVideo(String videoUrl) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return VideoDialog(videoUrl: videoUrl);
+      },
+    );
   }
 
   void nextExercise() {
@@ -116,7 +126,9 @@ class _WorkoutPageState extends State<WorkoutPage> {
                     alignment: Alignment.topRight,
                     child: IconButton(
                       icon: const Icon(Icons.play_circle_fill, size: 30),
-                      onPressed: () {},
+                      onPressed: () {
+                        playVideo(currentExercise.videoRef);
+                      },
                     ),
                   ),
                 ],
@@ -236,6 +248,67 @@ class _WorkoutPageState extends State<WorkoutPage> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class VideoDialog extends StatefulWidget {
+  final String videoUrl;
+
+  const VideoDialog({Key? key, required this.videoUrl}) : super(key: key);
+
+  @override
+  _VideoDialogState createState() => _VideoDialogState();
+}
+
+class _VideoDialogState extends State<VideoDialog> {
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
+      ..initialize().then((_) {
+        setState(() {}); // Atualiza a UI quando o vídeo estiver pronto
+        _controller.play();
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (_controller.value.isInitialized)
+              AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              )
+            else
+              const CircularProgressIndicator(),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Fechar'),
+            ),
+          ],
         ),
       ),
     );

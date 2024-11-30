@@ -4,8 +4,10 @@ import 'package:FitApp/application/infra/@providers/User.provider.dart';
 import 'package:FitApp/application/infra/database/models/user.model.dart';
 import 'package:FitApp/application/infra/database/repositories/user.repository.dart';
 import 'package:FitApp/application/infra/routes/config.router.dart';
+import 'package:FitApp/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:permission_handler/permission_handler.dart';
@@ -92,44 +94,39 @@ class PdfGenerator {
   }
 
   Future<void> _allowDownload(String filePath, BuildContext context) async {
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails('default_notification_channel_id', 'Default',
+            importance: Importance.max, priority: Priority.max);
+
+    const NotificationDetails notificationDetails =
+        NotificationDetails(android: androidNotificationDetails);
+
     if (Platform.isAndroid) {
       // Solicitar permissão de armazenamento
-      final status = await Permission.storage.request();
+      final result = await Permission.storage.request();
 
       // Verificar se a permissão foi concedida
-      if (status.isGranted) {
+      if (result == PermissionStatus.granted) {
         print("Permissão concedida com sucesso.");
         // Continuar com a lógica de salvar o PDF
         try {
           if (context.mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('PDF gerado com sucesso: $filePath')),
-            );
+            await flutterLocalNotificationsPlugin.show(1,
+                'PDF gerado com sucesso: $filePath', '', notificationDetails);
           }
         } catch (e) {
           print("Erro ao gerar o PDF: $e");
           if (context.mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Erro ao gerar o PDF: $e')),
-            );
+            await flutterLocalNotificationsPlugin.show(1,
+                'Permissão de armazenamento negada.', '', notificationDetails);
           }
         }
       } else {
         print("Permissão de armazenamento negada.");
-        // Se a permissão for permanentemente negada, levar o usuário para as configurações
-        if (status.isDenied || status.isPermanentlyDenied) {
+        if (result.isDenied || result.isPermanentlyDenied) {
           if (context.mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Permissão de armazenamento negada.'),
-                action: SnackBarAction(
-                  label: 'Abrir Configurações',
-                  onPressed: () {
-                    openAppSettings(); // Abre as configurações do aplicativo
-                  },
-                ),
-              ),
-            );
+            await flutterLocalNotificationsPlugin.show(1,
+                'Permissão de armazenamento negada.', '', notificationDetails);
           }
         }
       }

@@ -37,9 +37,9 @@ class WorkoutSchedulerPageState extends State<WorkoutSchedulerPage> {
 
   List<Event> _getEventsForDay(DateTime day) {
     return [
-      if (day.day == 18) Event('Treino A'),
-      if (day.day == 20) Event('Treino B'),
-      if (day.day == 25) Event('Treino C'),
+      if (day.day == 02) Event('Treino A'),
+      if (day.day == 03) Event('Treino B'),
+      if (day.day == 04) Event('Treino C'),
     ];
   }
 

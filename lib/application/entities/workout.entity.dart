@@ -7,12 +7,14 @@ class Workout {
   List<int?> reps;
   List<bool> completed;
   List<int> restTimes;
+  String videoRef;
 
   Workout({
     required this.name,
     required this.sets,
     required this.defaultReps,
     required this.defaultWeight,
+    this.videoRef = ''
   })  : weight = List.filled(sets, defaultWeight),
         reps = List.filled(sets, defaultReps),
         completed = List.filled(sets, false),
