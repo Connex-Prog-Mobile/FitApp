@@ -154,7 +154,7 @@ class _UsersPageState extends State<UsersPage> {
           ],
         ),
       ),
-      bottomNavigationBar: const FooterWidget(selectedIndex: 4, userType: UserType.trainer),
+      bottomNavigationBar: const FooterWidget(selectedIndex: 3, userType: UserType.trainer),
     );
   }
 }

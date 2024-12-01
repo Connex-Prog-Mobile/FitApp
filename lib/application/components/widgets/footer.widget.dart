@@ -1,6 +1,5 @@
 
 import 'package:FitApp/application/components/trainer/pages/addWorkoutPage.component.dart';
-import 'package:FitApp/application/components/trainer/pages/homePage.component.dart';
 import 'package:FitApp/application/components/trainer/pages/searchPage.component.dart';
 import 'package:FitApp/application/components/trainer/pages/userPage.component.dart';
 import 'package:FitApp/application/components/trainer/pages/workoutSheetPage.component.dart';
@@ -39,7 +38,7 @@ class _FooterWidgetState extends State<FooterWidget> {
   ];
 
   final List<Widget> _trainerPages = [
-    const TrainerHomePage(),
+    // const TrainerHomePage(),
     const SearchPage(),
     const AddWorkoutPage(),
     const WorkoutSheetPage(),
@@ -47,7 +46,7 @@ class _FooterWidgetState extends State<FooterWidget> {
   ];
 
   final List<BottomNavigationBarItem> _trainerItems = const [
-    BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+    // BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
     BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Buscar'),
     BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Treinos'),
     BottomNavigationBarItem(icon: Icon(Icons.file_copy), label: 'Fichas'),

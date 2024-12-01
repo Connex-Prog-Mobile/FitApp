@@ -131,7 +131,7 @@ class _AddWorkoutPageState extends State<AddWorkoutPage> {
           ),
         ),
       ),
-      bottomNavigationBar: const FooterWidget(selectedIndex: 2, userType: UserType.trainer),
+      bottomNavigationBar: const FooterWidget(selectedIndex: 1, userType: UserType.trainer),
     );
   }
 }

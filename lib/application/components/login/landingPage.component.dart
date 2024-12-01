@@ -103,7 +103,7 @@ class LandingPageState extends State<LandingPage> {
                       _userCodeController.clear();
                       _passwordController.clear();
                       if (userProvider.userType == UserType.trainer) {
-                        navigateTo(context, '/trainerHome');
+                        navigateTo(context, '/search');
                       } else {
                         navigateTo(context, '/userHome');
                       }

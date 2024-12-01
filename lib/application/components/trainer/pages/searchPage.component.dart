@@ -165,7 +165,7 @@ class _SearchPageState extends State<SearchPage> {
         ),
         bottomNavigationBar: (activeUser?.isAuthenticated ?? false)
             ? const FooterWidget(
-                selectedIndex: 1,
+                selectedIndex: 0,
                 userType: UserType.trainer,
               )
             : const SizedBox.shrink());

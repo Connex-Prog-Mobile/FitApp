@@ -318,7 +318,7 @@ class _WorkoutSheetPageState extends State<WorkoutSheetPage> {
         ),
       ),
       bottomNavigationBar:
-          const FooterWidget(selectedIndex: 3, userType: UserType.trainer),
+          const FooterWidget(selectedIndex: 2, userType: UserType.trainer),
     );
   }
 }
