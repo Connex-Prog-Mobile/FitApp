@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:FitApp/application/entities/workout.entity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:video_player/video_player.dart';
 
 class WorkoutPage extends StatefulWidget {
@@ -15,9 +16,9 @@ class WorkoutPage extends StatefulWidget {
 
 class _WorkoutPageState extends State<WorkoutPage> {
   List<Workout> exercises = [
-    Workout(name: 'Supino Reto', sets: 3, defaultWeight: 20, defaultReps: 10, videoRef:'https://cdnl.iconscout.com/lottie/premium/preview-watermark/man-doing-sled-leg-press-exercise-for-legs-animation-download-in-lottie-json-gif-static-svg-file-formats--men-workout-male-gym-exercises-pack-fitness-animations-9729963.mp4'),
-    Workout(name: 'Rosca Direta', sets: 4, defaultWeight: 15, defaultReps: 12, videoRef:'https://cdnl.iconscout.com/lottie/premium/preview-watermark/man-doing-sled-leg-press-exercise-for-legs-animation-download-in-lottie-json-gif-static-svg-file-formats--men-workout-male-gym-exercises-pack-fitness-animations-9729963.mp4'),
-    Workout(name: 'Agachamento', sets: 5, defaultWeight: 30, defaultReps: 8, videoRef:'https://cdnl.iconscout.com/lottie/premium/preview-watermark/man-doing-sled-leg-press-exercise-for-legs-animation-download-in-lottie-json-gif-static-svg-file-formats--men-workout-male-gym-exercises-pack-fitness-animations-9729963.mp4'),
+    Workout(name: 'Supino declinado', sets: 3, defaultWeight: 20, defaultReps: 10, videoRef:'supino_declinado.mp4'),
+    Workout(name: 'Rosca Direta', sets: 4, defaultWeight: 15, defaultReps: 12, videoRef:'biceps_rosca_direta.mp4'),
+    Workout(name: 'Pull Down', sets: 5, defaultWeight: 30, defaultReps: 8, videoRef:'pull_down.mp4'),
   ];
 
   int currentExerciseIndex = 0;
@@ -270,7 +271,7 @@ class _VideoDialogState extends State<VideoDialog> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
+    _controller = VideoPlayerController.asset('lib/application/assets/workouts/${widget.videoUrl}')
       ..initialize().then((_) {
         setState(() {}); // Atualiza a UI quando o vídeo estiver pronto
         _controller.play();

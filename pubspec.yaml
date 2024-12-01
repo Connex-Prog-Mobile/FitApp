@@ -49,6 +49,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   video_player: ^2.9.2
+  flutter_animate: ^4.5.2
 
 flutter_icons:
   android: true  # Para gerar o ícone para Android
@@ -74,6 +75,23 @@ flutter:
   assets:
     - lib/application/assets/home/logo.png
     - lib/application/assets/fonts/Roboto/Roboto-Bold.ttf
+    - lib/application/assets/workouts/afundo_halter.mp4
+    - lib/application/assets/workouts/biceps_concentrado.mp4
+    - lib/application/assets/workouts/biceps_rosca_direta.mp4
+    - lib/application/assets/workouts/cadeira_extensora.mp4
+    - lib/application/assets/workouts/elevacao_lateral.mp4
+    - lib/application/assets/workouts/elevacao_panturilha.mp4
+    - lib/application/assets/workouts/encolhimento_deltoide.mp4
+    - lib/application/assets/workouts/leg_press.mp4
+    - lib/application/assets/workouts/mesa_flexora.mp4
+    - lib/application/assets/workouts/peck_deck.mp4
+    - lib/application/assets/workouts/pull_down.mp4
+    - lib/application/assets/workouts/puxada_frontal.mp4
+    - lib/application/assets/workouts/remada_baixa_triangulo.mp4
+    - lib/application/assets/workouts/remada_curvada.mp4
+    - lib/application/assets/workouts/supino_com_barra.mp4
+    - lib/application/assets/workouts/supino_declinado.mp4
+    - lib/application/assets/workouts/supino_inclinado.mp4
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
