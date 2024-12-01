@@ -149,7 +149,7 @@ class _WorkoutSheetPageState extends State<WorkoutSheetPage> {
         SnackBar(content: Text('Ficha cadastrada com sucesso!')),
       );
 
-      navigateTo(context, '/trainerHome');
+      navigateTo(context, '/search');
 
     } catch (e) {
       print("####### $e");
